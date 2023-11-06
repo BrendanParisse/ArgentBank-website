@@ -1,0 +1,258 @@
+swagger: '2.0'
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/{idaccount}/transactions/{CurrentMonth}:
+    get:
+      tags:
+        - Transactions de l'utilisateur
+      summary: Transactions
+      description: Mois pour lequel les transactions sont demandées
+      parameters:
+        - name: idaccount
+          in: path
+          description: ID du compte
+          required: true
+          type: integer
+          format: int64
+        - name: CurrentMonth
+          in: path
+          description: Mois en cours
+          required: true
+          type: integer
+          format: int64
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Réponse réussie avec les données de transaction.
+          schema:
+            $ref: '#/definitions/TransactionsResponse'
+        '400':
+          description: Aucune transaction trouvée
+        '500':
+          description: Erreur interne du serveur
+  /user/{idaccount}/transactions/{id}/details:
+    get:
+      tags:
+        - Transactions de l'utilisateur
+      summary: Détails de la transaction
+      description: Obtenez les détails d'une transaction spécifique
+      parameters:
+        - name: idaccount
+          in: path
+          description: ID du compte
+          required: true
+          type: integer
+          format: int64
+        - name: id
+          in: path
+          description: ID de la transaction
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Réussi
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Champs non valides
+        '500':
+          description: Erreur interne du serveur
+  /user/{idaccount}/transactions/{id}/category:
+    put:
+      tags:
+        - Category
+      summary: Mettre à jour la catégorie d'une transaction
+      description: Mettez à jour la catégorie d'une transaction spécifique
+      parameters:
+        - name: idaccount
+          in: path
+          description: ID du compte
+          required: true
+          type: integer
+          format: int64
+        - name: id
+          in: path
+          description: ID de la transaction
+          required: true
+          type: string
+        - name: updatedCategory
+          in: query
+          description: Nouvelle catégorie pour la transaction
+          required: true
+          type: integer
+          format: int64
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Catégorie de la transaction mise à jour avec succès
+          schema:
+            $ref: '#/definitions/ApiResponseWithCategory'
+        '400':
+          description: Champs non valides
+        '500':
+          description: Erreur interne du serveur
+  /user/{idaccount}/transactions/{id}/note:
+    put:
+      tags:
+        - Note
+      summary: Mettre à jour la note d'une transaction
+      description: Mettez à jour la note d'une transaction spécifique
+      parameters:
+        - name: idaccount
+          in: path
+          description: ID du compte
+          required: true
+          type: integer
+          format: int64
+        - name: id
+          in: path
+          description: ID de la transaction
+          required: true
+          type: string
+        - name: updatedNote
+          in: query
+          description: Nouvelle note pour la transaction
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Note de la transaction mise à jour avec succès
+          schema:
+            $ref: '#/definitions/ApiResponseWithNote'
+        '400':
+          description: Champs non valides
+        '500':
+          description: Erreur interne du serveur
+  /categories:
+    post:
+      tags:
+        - Category
+      summary: Ajouter une nouvelle catégorie
+      description: Ajoute une nouvelle catégorie
+      parameters:
+        - name: categoryName
+          in: query
+          description: Nom de la nouvelle catégorie
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '201':
+          description: Catégorie ajoutée avec succès
+          schema:
+            $ref: '#/definitions/Category'
+        '400':
+          description: Champs non valides
+        '500':
+          description: Erreur interne du serveur
+
+  /categories/{categoryId}:
+    delete:
+      tags:
+        - Category
+      summary: Supprimer une catégorie
+      description: Supprime une catégorie existante
+      parameters:
+        - name: categoryId
+          in: path
+          description: ID de la catégorie à supprimer
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '204':
+          description: Catégorie supprimée avec succès
+        '404':
+          description: Catégorie non trouvée
+        '500':
+          description: Erreur interne du serveur
+          
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  Details:
+    properties:
+      transactionID:
+        type: string
+        description: ID de la transaction pour récupérer les détails
+  Transactions:
+    properties:
+      month:
+        type: string
+      account:
+        type: string
+      userName:
+        type: string
+  ApiResponse:
+    type: object
+    properties:
+      TransactionType:
+        type: string
+      Category:
+        $ref: '#/definitions/Category'
+      Note:
+        type: string
+  TransactionsResponse:
+    type: object
+    properties:
+      id:
+        type: string
+      Date:
+        type: string
+      Description:
+        type: string
+      Amount:
+        type: string
+      Balance:
+        type: string
+  Category:
+    properties:
+      categoryId:
+        type: string
+        description: ID de la catégorie
+      categoryName:
+        type: string
+        description: Nom de la catégorie
+  Note:
+    properties:
+      transactionID:
+        type: string
+        description: ID de la transaction pour récupérer les détails
+      text:
+        type: string
+        description: Texte de la note
+  ApiResponseWithCategory:
+    type: object
+    properties:
+      TransactionType:
+        type: string
+      Category:
+        $ref: '#/definitions/Category'
+      Note:
+        type: string
+  ApiResponseWithNote:
+    type: object
+    properties:
+      TransactionType:
+        type: string
+      Note:
+        $ref: '#/definitions/Note'

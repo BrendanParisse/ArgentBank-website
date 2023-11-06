@@ -23,16 +23,19 @@ body {
 
 .sr-only {
   border: 0 !important;
-  clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  /* 1 */
   -webkit-clip-path: inset(50%) !important;
-  clip-path: inset(50%) !important; /* 2 */
+  clip-path: inset(50%) !important;
+  /* 2 */
   height: 1px !important;
   margin: -1px !important;
   overflow: hidden !important;
   padding: 0 !important;
   position: absolute !important;
   width: 1px !important;
-  white-space: nowrap !important; /* 3 */
+  white-space: nowrap !important;
+  /* 3 */
 }
 
 .main-nav {
@@ -70,11 +73,9 @@ body {
   width: 200px;
 }
 
-.hero {
-  background-image: url('../img/bank-tree.jpeg');
-  background-position: 0 -50px;
-  background-size: cover;
-  background-repeat: no-repeat;
+.hero img {
+  width: 100%;
+  object-fit: cover;
   height: 300px;
   position: relative;
 }
@@ -288,4 +289,74 @@ body {
   .transaction-button {
     width: 200px;
   }
+}
+
+
+/* MENU NAVIGATION */
+
+.Menu_Nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+/* FORMULAIRE */
+
+.Formulaire {
+  background-color: white;
+  color: #12002b;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  width: 30%;
+  margin: auto;
+  margin-top: 1em;
+}
+
+@media only screen and (max-width: 1024px) {
+  .Formulaire {
+    width: 40%;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .Formulaire {
+    width: 80%;
+  }
+}
+
+.ChampForm {
+  display: flex;
+  margin-top: 1em;
+}
+
+.Gris input {
+  background-color: lightgrey;
+  user-select: none;
+}
+
+.ChampForm Label {
+  margin-right: 0.5em;
+}
+
+.ButtonForm {
+  display: flex;
+  margin-top: 1em;
+  padding-bottom: 1em;
+  justify-content: space-evenly;
+}
+
+.ButtonForm input {
+  display: block;
+  width: 35%;
+  padding: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
 }
