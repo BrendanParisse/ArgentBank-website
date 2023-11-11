@@ -9,7 +9,6 @@ function Connection() {
 
     const handleLogin = () => {
         dispatch(DataService.loginUser(email, password));
-        dispatch(DataService.getUserProfile());
     };
 
     return (
